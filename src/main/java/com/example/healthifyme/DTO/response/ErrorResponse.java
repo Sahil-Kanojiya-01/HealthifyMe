@@ -1,6 +1,10 @@
 package com.example.healthifyme.DTO.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import java.time.Instant;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,17 +13,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 
-import java.time.Instant;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ErrorResponse {
+public class ErrorResponse{
 
     private boolean success;
     private String message;
@@ -38,7 +37,8 @@ public class ErrorResponse {
                 .build();
     }
 
-    public static ErrorResponse of(HttpStatus status, String message, String path, List<FieldError> validationErrorsList) {
+    public static ErrorResponse of(HttpStatus status, String message, String path,
+            List<FieldError> validationErrorsList) {
         return ErrorResponse.builder()
                 .success(false)
                 .status(status.value())

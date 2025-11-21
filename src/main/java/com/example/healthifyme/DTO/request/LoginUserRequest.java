@@ -5,9 +5,9 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class LoginUserRequest {
+@AllArgsConstructor
+public class LoginUserRequest{
 
     @NotBlank(message = "Email is required")
     @Email(message = "Email should be valid")

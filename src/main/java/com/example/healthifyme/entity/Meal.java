@@ -1,0 +1,46 @@
+package com.example.healthifyme.entity;
+
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+@Table(name = "meals")
+public class Meal{
+
+    @Id
+    @GeneratedValue
+    private UUID id;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "goal_id")
+    private Goal goal;
+
+    @Column(nullable = false)
+    private LocalDate date;
+
+    @Enumerated(EnumType.STRING)
+    private MealType type;
+
+    @OneToMany(mappedBy = "meal")
+    private List<MealItem> items = new ArrayList<>();
+
+    public enum MealType {
+        BREAKFAST, LUNCH, SNACK, DINNER
+    }
+}

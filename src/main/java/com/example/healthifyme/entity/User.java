@@ -1,12 +1,13 @@
 package com.example.healthifyme.entity;
 
 import jakarta.persistence.*;
+
+import java.util.*;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.*;
 
 @Getter
 @Setter
@@ -14,7 +15,7 @@ import java.util.*;
 @AllArgsConstructor
 @Entity
 @Table(name = "users")
-public class User {
+public class User{
 
     @Id
     @GeneratedValue
@@ -25,4 +26,16 @@ public class User {
 
     @Column(nullable = false)
     private String password;
+
+    @OneToOne(mappedBy = "user")
+    private Profile profile;
+
+    @OneToMany(mappedBy = "user")
+    private List<Workout> workouts;
+
+    @OneToMany(mappedBy = "user")
+    private List<Meal> meals;
+
+    @OneToMany(mappedBy = "user")
+    private List<Subscription> subscriptions;
 }

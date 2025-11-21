@@ -1,0 +1,31 @@
+spring:
+  application:
+    name: HealthifyMe
+  datasource:
+    url: #Datasource URL
+    username: #Username
+    password: #Password
+    driver-class-name: #Driver class name
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+
+logging:
+  level:
+    root: INFO
+    org.springframework: INFO
+    com.example.healthifyme: DEBUG
+
+app:
+  security:
+    password-encoder:
+      strength: #Strength
+    jwt:
+      issuer: HealthifyMe
+#      secret: jwtSecretDummy
+      secret-file-path: ${file:secret/jwt-secret.key}
+      expiration-ms: 3600000

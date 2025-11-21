@@ -5,27 +5,23 @@ import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.time.Instant;
 import java.util.*;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
-public class JwtService {
+public class JwtService{
 
     private final JwtProperties props;
     private final Key key;
 
-    public JwtService(
-            JwtProperties props
-    ) {
+    public JwtService(JwtProperties props) {
         this.props = props;
-//        byte[] keyBytes = props.getSecret().getBytes();
-        byte[] keyBytes =  "AlphaBetaGammaDeltaSigmaTheta1234".getBytes(StandardCharsets.UTF_8);
+        byte[] keyBytes = props.getSecret().getBytes(StandardCharsets.UTF_8);
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
 
@@ -36,7 +32,14 @@ public class JwtService {
         Instant issuedAt = Instant.now();
         Instant expiration = issuedAt.plusMillis(props.getExpirationMs());
 
-        return Jwts.builder().setClaims(claims).setSubject(email).setIssuer(props.getIssuer()).setIssuedAt(Date.from(issuedAt)).setExpiration(Date.from(expiration)).signWith(key, SignatureAlgorithm.HS256).compact();
+        return Jwts.builder()
+                .setClaims(claims)
+                .setSubject(email)
+                .setIssuer(props.getIssuer())
+                .setIssuedAt(Date.from(issuedAt))
+                .setExpiration(Date.from(expiration))
+                .signWith(key, SignatureAlgorithm.HS256)
+                .compact();
     }
 
     public boolean validate(String token) {

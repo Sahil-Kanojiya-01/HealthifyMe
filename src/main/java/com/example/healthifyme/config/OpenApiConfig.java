@@ -6,10 +6,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class OpenApiConfig {
+public class OpenApiConfig{
 
     @Bean
     public OpenAPI customOpenAPI() {
-        return new OpenAPI().info(new Info().title("HealthifyMe Backend").version("1.0").description("API documentation for HealthifyMe Backend"));
+        return new OpenAPI().info(new Info().title("HealthifyMe Backend")
+                .version("1.0")
+                .description("API documentation for HealthifyMe Backend"));
     }
 }

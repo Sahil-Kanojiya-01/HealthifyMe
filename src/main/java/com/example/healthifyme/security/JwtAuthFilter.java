@@ -4,6 +4,8 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Collections;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -13,22 +15,20 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import java.io.IOException;
-import java.util.Collections;
-
 @Slf4j
 @RequiredArgsConstructor
 @Component
-public class JwtAuthFilter extends OncePerRequestFilter {
+public class JwtAuthFilter extends OncePerRequestFilter{
 
-    private final String AUTHORIZATION_HEADER_KEY = "Authorization";
-    private final String BEARER_TOKEN_START_CONDITION = "Bearer ";
-    private final String DEFAULT_ROLE = "ROLE_USER";
+    private static final String AUTHORIZATION_HEADER_KEY = "Authorization";
+    private static final String BEARER_TOKEN_START_CONDITION = "Bearer ";
+    private static final String DEFAULT_ROLE = "ROLE_USER";
 
     private final JwtService jwtService;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws ServletException, IOException {
 
         final String path = request.getRequestURI();
         log.debug("Incoming request: {}", path);
@@ -53,7 +53,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         String email = jwtService.extractEmail(token);
         log.info("Valid JWT for user: {}", email);
 
-        var auth = new UsernamePasswordAuthenticationToken(email, null, Collections.singleton(new SimpleGrantedAuthority(DEFAULT_ROLE)));
+        var auth = new UsernamePasswordAuthenticationToken(email, null,
+            Collections.singleton(new SimpleGrantedAuthority(DEFAULT_ROLE)));
         auth.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
         SecurityContextHolder.getContext().setAuthentication(auth);
