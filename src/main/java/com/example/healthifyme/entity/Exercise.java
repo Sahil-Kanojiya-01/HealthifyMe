@@ -23,7 +23,7 @@ public class Exercise{
     @Column(nullable = false)
     private String name;
 
-    private String muscleGroup;
-    private String equipment;
+    private String muscleGroup; // CHEST, BACK, LEGS, ARMS, SHOULDERS, CORE, CARDIO
+    private String equipment; // DUMBBELL, BARBELL, MACHINE, BODYWEIGHT
     private String description;
 }

@@ -30,7 +30,7 @@ public class ActivityLog{
 
     private Integer sets;
     private Integer reps;
-    private Double weight;
-    private Double distance;
-    private Integer duration;
+    private Double weight; // in kg
+    private Double distance; // in km (for cardio)
+    private Integer duration; // in minutes (for cardio)
 }

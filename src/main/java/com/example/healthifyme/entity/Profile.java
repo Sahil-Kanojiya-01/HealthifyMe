@@ -25,12 +25,20 @@ public class Profile{
     private User user;
 
     private Integer age;
-    private Double weight;
-    private Double height;
-    private String gender;
-    private String activityLevel;
+    private Double weight; // in kg
+    private Double height; // in cm
+    private String gender; // MALE, FEMALE, OTHER
+    private String activityLevel; // SEDENTARY, LIGHTLY_ACTIVE, MODERATELY_ACTIVE, VERY_ACTIVE
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "goal_id", referencedColumnName = "id")
     private Goal goal;
+
+    public Double calculateBMI() {
+        if (weight != null && height != null && height > 0) {
+            double heightInMeters = height / 100.0;
+            return weight / (heightInMeters * heightInMeters);
+        }
+        return null;
+    }
 }

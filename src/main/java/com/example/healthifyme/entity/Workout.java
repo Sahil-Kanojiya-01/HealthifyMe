@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,8 +36,16 @@ public class Workout{
     private LocalDateTime startTime;
 
     private LocalDateTime endTime;
-    private String name;
+
+    private String name; // e.g., "Morning Cardio", "Leg Day"
 
     @OneToMany(mappedBy = "workout")
     private List<ActivityLog> activities = new ArrayList<>();
+
+    public Long getDurationInMinutes() {
+        if (startTime != null && endTime != null) {
+            return Duration.between(startTime, endTime).toMinutes();
+        }
+        return 0L;
+    }
 }

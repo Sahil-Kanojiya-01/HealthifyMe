@@ -1,6 +1,7 @@
 package com.example.healthifyme.config;
 
 import com.example.healthifyme.security.JwtAuthFilter;
+import com.example.healthifyme.security.XJwtAuthFilter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,7 +22,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig{
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http, JwtAuthFilter jwtAuthFilter) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http, JwtAuthFilter jwtAuthFilter,
+            XJwtAuthFilter xJwtAuthFilter) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(securitySessionManagementConfigurer->securitySessionManagementConfigurer
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -35,7 +37,8 @@ public class SecurityConfig{
                             .permitAll()
                             .anyRequest()
                             .permitAll())
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(xJwtAuthFilter, JwtAuthFilter.class);
         return http.build();
     }
 

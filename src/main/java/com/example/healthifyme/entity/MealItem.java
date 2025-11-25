@@ -28,5 +28,12 @@ public class MealItem{
     @JoinColumn(name = "food_id", nullable = false)
     private Food food;
 
-    private Double quantity;
+    private Double quantity; // Multiplier of serving size or grams
+
+    public Double getCalories() {
+        if (food != null && quantity != null) {
+            return food.getCalories() * quantity;
+        }
+        return 0.0;
+    }
 }

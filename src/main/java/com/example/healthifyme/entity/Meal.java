@@ -35,12 +35,16 @@ public class Meal{
     private LocalDate date;
 
     @Enumerated(EnumType.STRING)
-    private MealType type;
+    private MealType type; // BREAKFAST, LUNCH, SNACK, DINNER
 
     @OneToMany(mappedBy = "meal")
     private List<MealItem> items = new ArrayList<>();
 
     public enum MealType {
         BREAKFAST, LUNCH, SNACK, DINNER
+    }
+
+    public Double getTotalCalories() {
+        return items.stream().map(MealItem::getFood).mapToDouble(Food::getCalories).sum();
     }
 }

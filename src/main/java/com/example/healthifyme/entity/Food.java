@@ -23,10 +23,10 @@ public class Food{
     @Column(nullable = false)
     private String name;
 
-    private Double calories;
+    private Double calories; // per 100g or per serving
     private Double protein;
     private Double carbs;
     private Double fat;
-    private String servingUnit;
-    private Double servingSize;
+    private String servingUnit; // g, ml, piece
+    private Double servingSize; // default serving size
 }
