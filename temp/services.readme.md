@@ -2,34 +2,6 @@
 
 This document provides a comprehensive overview of all services in the HealthifyMe application and their methods.
 
----
-
-## AuthService
-
-**Package:** `com.example.healthifyme.service`
-
-**Description:** Handles user authentication and registration operations.
-
-**Dependencies:**
-- `UserRepository` - Repository for user data access
-- `PasswordEncoder` - For password encryption
-
-### Methods
-
-#### `register(String email, String password): void`
-- **Type:** `public void`
-- **Parameters:**
-  - `email` (String) - User's email address
-  - `password` (String) - User's plain text password
-- **Returns:** `void`
-- **Throws:** `UserAlreadyExistsException` - If user with the email already exists
-- **Description:** Registers a new user in the system. Validates that the email doesn't already exist, encrypts the password, and saves the user to the database.
-- **Logging:** 
-  - INFO: "Attempting to register user with email: {email}"
-  - INFO: "User registered successfully with email: {email}"
-
----
-
 ## Future Services
 
 Based on the entity analysis, the following services are expected to be implemented:

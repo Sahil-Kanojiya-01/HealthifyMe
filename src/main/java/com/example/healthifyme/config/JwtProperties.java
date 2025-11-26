@@ -15,13 +15,9 @@ import java.nio.file.Path;
 @Component
 @ConfigurationProperties(prefix = "app.security.jwt")
 public class JwtProperties{
-
     private String issuer;
-
     private String secretFilePath;
-
     private String secret;
-
     private long expirationMs;
 
     @PostConstruct

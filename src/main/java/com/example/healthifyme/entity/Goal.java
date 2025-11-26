@@ -23,26 +23,20 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Goal{
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private UUID id;
-
     @Enumerated(EnumType.STRING)
     private GoalType goalType;
-
     private Double targetValue;
     private Double currentValue;
     private LocalDate startDate;
     private LocalDate endDate;
-
     @ManyToOne
     @JoinColumn(name = "profile_id")
     private Profile profile;
-
     @OneToMany(mappedBy = "goal")
     private List<Workout> workouts;
-
     @OneToMany(mappedBy = "goal")
     private List<Meal> meals;
 

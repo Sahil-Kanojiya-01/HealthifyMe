@@ -15,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class RestApiResponse<T> {
-
     private boolean success;
     private String message;
     private int status;

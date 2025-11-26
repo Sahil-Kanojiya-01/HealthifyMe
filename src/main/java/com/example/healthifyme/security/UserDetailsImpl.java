@@ -12,9 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Getter
 @RequiredArgsConstructor
 public class UserDetailsImpl implements UserDetails{
-
     private final User user;
-
     private final String DEFAULT_ROLE = "ROLE_USER";
 
     @Override

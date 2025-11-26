@@ -22,6 +22,9 @@ logging:
 
 app:
   security:
+      admin:
+        email: #email
+        password: #password
     password-encoder:
       strength: #Strength
     jwt:

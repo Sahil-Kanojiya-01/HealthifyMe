@@ -19,7 +19,6 @@ import org.springframework.validation.FieldError;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ErrorResponse{
-
     private boolean success;
     private String message;
     private String path;

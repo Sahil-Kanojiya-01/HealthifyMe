@@ -50,6 +50,13 @@
 
         <!-- ===== EMPTY LINES ===== -->
         <setting id="org.eclipse.jdt.core.formatter.number_of_empty_lines_to_preserve" value="1"/>
+        <setting id="org.eclipse.jdt.core.formatter.blank_lines_between_code_block" value="1"/>
+        <setting id="org.eclipse.jdt.core.formatter.blank_lines_before_method" value="1"/>
+        <setting id="org.eclipse.jdt.core.formatter.blank_lines_between_methods" value="1"/>
+        <setting id="org.eclipse.jdt.core.formatter.blank_lines_between_statements" value="0"/>
+        <setting id="org.eclipse.jdt.core.formatter.blank_lines_before_closing_brace" value="0"/>
+        <setting id="org.eclipse.jdt.core.formatter.blank_lines_before_field" value="0"/>
+        <setting id="org.eclipse.jdt.core.formatter.blank_lines_after_field" value="0"/>
 
         <!-- ===== IMPORTS ===== -->
         <setting id="org.eclipse.jdt.core.formatter.import_order" value="java;javax;org;com;"/>

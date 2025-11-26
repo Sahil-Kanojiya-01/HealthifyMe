@@ -150,6 +150,7 @@
                     <java>
                         <eclipse>
                             <file>${project.basedir}/config/fmt-style/java-default-style.xml</file>
+<!--                            <file>${project.basedir}/config/fmt-style/java-google-style.xml</file>-->
                         </eclipse>
                     </java>
                 </configuration>

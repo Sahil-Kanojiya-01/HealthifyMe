@@ -10,8 +10,6 @@ import org.springframework.stereotype.Component;
 @Component
 @ConfigurationProperties(prefix = "app.security.admin")
 public class AdminCredentialProperties{
-
     private String email;
     private String password;
-
 }

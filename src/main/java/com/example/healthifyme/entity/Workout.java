@@ -19,26 +19,19 @@ import java.util.UUID;
 @Entity
 @Table(name = "workouts")
 public class Workout{
-
     @Id
     @GeneratedValue
     private UUID id;
-
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
-
     @ManyToOne
     @JoinColumn(name = "goal_id")
     private Goal goal;
-
     @Column(nullable = false)
     private LocalDateTime startTime;
-
     private LocalDateTime endTime;
-
     private String name; // e.g., "Morning Cardio", "Leg Day"
-
     @OneToMany(mappedBy = "workout")
     private List<ActivityLog> activities = new ArrayList<>();
 

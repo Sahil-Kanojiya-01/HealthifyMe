@@ -16,23 +16,17 @@ import lombok.Setter;
 @Entity
 @Table(name = "users")
 public class User{
-
     @Id
     @GeneratedValue
     private UUID id;
-
     @Column(nullable = false, unique = true)
     private String email;
-
     @Column(nullable = false)
     private String password;
-
     @OneToOne(mappedBy = "user")
     private Profile profile;
-
     @OneToMany(mappedBy = "user")
     private List<Workout> workouts;
-
     @OneToMany(mappedBy = "user")
     private List<Meal> meals;
 }

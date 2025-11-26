@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 public class JwtService{
-
     private final JwtProperties props;
     private final Key key;
     private final static String ADMIN_X_CLAIM_KEY = "admin-x-token";
@@ -29,10 +28,8 @@ public class JwtService{
     public String generateToken(String email) {
         log.debug("Generating token for User: {}", email);
         Map<String, Object> claims = new HashMap<>();
-
         Instant issuedAt = Instant.now();
         Instant expiration = issuedAt.plusMillis(props.getExpirationMs());
-
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(email)
@@ -47,10 +44,8 @@ public class JwtService{
         log.debug("Generating admin-x-token for Admin: {}", email);
         Map<String, Object> claims = new HashMap<>();
         claims.put(ADMIN_X_CLAIM_KEY, true);
-
         Instant issuedAt = Instant.now();
         Instant expiration = issuedAt.plusMillis(props.getExpirationMs());
-
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(email)

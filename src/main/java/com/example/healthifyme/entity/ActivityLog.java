@@ -15,19 +15,15 @@ import java.util.UUID;
 @Entity
 @Table(name = "activity_logs")
 public class ActivityLog{
-
     @Id
     @GeneratedValue
     private UUID id;
-
     @ManyToOne
     @JoinColumn(name = "workout_id", nullable = false)
     private Workout workout;
-
     @ManyToOne
     @JoinColumn(name = "exercise_id", nullable = false)
     private Exercise exercise;
-
     private Integer sets;
     private Integer reps;
     private Double weight; // in kg
