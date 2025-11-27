@@ -51,5 +51,3 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 Sahil Kanojiya  
 GitHub: [Sahil-Kanojiya-01](https://github.com/Sahil-Kanojiya-01)
-
----
