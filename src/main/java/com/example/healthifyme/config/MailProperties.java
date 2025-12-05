@@ -5,13 +5,12 @@ import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
-@Setter
 @Getter
+@Setter
 @Component
-@ConfigurationProperties(prefix = "app.security.admin")
-public class AdminCredentialProperties {
+@ConfigurationProperties(prefix = "app.mail.resend")
+public class MailProperties {
 
-    private String email;
-
-    private String password;
+    private String from;
+    private String apiKey;
 }

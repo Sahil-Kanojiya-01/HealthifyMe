@@ -20,42 +20,45 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/auth")
-public class AuthController{
+public class AuthController {
+
     private final AuthenticationManager authenticationManager;
+
     private final JwtService jwtService;
+
     private final AuthService authService;
 
     @PostMapping("/login")
     public ResponseEntity<RestApiResponse<JwtTokenResponse>> loginUser(
             @Valid @RequestBody LoginUserRequest loginUserRequest) {
         authenticationManager.authenticate(
-            new UsernamePasswordAuthenticationToken(loginUserRequest.getEmail(), loginUserRequest.getPassword()));
-        String token = jwtService.generateToken(loginUserRequest.getEmail());
-        JwtTokenResponse jwtTokenResponse = new JwtTokenResponse(token);
+                new UsernamePasswordAuthenticationToken(loginUserRequest.getEmail(), loginUserRequest.getPassword()));
+        String authUserToken = jwtService.generateAuthUserToken(loginUserRequest.getEmail());
+        JwtTokenResponse jwtTokenResponse = new JwtTokenResponse(authUserToken);
         log.info("User logged in successfully: {}", loginUserRequest.getEmail());
         RestApiResponse<JwtTokenResponse> restApiResponse =
-            RestApiResponse.success("User logged in successfully", jwtTokenResponse, HttpStatus.CREATED);
+                RestApiResponse.success("User logged in successfully", jwtTokenResponse, HttpStatus.CREATED);
         return restApiResponse.toResponseEntity();
     }
 
     @PostMapping("/register")
     public ResponseEntity<RestApiResponse<Void>> registerUser(
             @Valid @RequestBody RegisterUserRequest registerUserRequest) {
-        authService.register(registerUserRequest.getEmail(), registerUserRequest.getPassword());
+        authService.registerUser(registerUserRequest.getEmail(), registerUserRequest.getPassword());
         RestApiResponse<Void> restApiResponse =
-            RestApiResponse.success("User registered successfully", null, HttpStatus.CREATED);
+                RestApiResponse.success("User registered successfully", null, HttpStatus.CREATED);
         return restApiResponse.toResponseEntity();
     }
 
     @PostMapping("/admin-x-token")
-    public ResponseEntity<RestApiResponse<JwtTokenResponse>> adminXToken(
+    public ResponseEntity<RestApiResponse<JwtTokenResponse>> createAdminXToken(
             @Valid @RequestBody LoginAdminRequest loginAdminRequest) {
         authService.authenticateAdminCredentials(loginAdminRequest.getEmail(), loginAdminRequest.getPassword());
-        String XToken = jwtService.generateAdminXToken(loginAdminRequest.getEmail());
-        JwtTokenResponse jwtXTokenResponse = new JwtTokenResponse(XToken);
+        String XAuthAdminToken = jwtService.generateXAuthAdminToken(loginAdminRequest.getEmail());
+        JwtTokenResponse jwtXTokenResponse = new JwtTokenResponse(XAuthAdminToken);
         log.info("Admin logged in successfully: {}", loginAdminRequest.getEmail());
         RestApiResponse<JwtTokenResponse> restApiResponse =
-            RestApiResponse.success("Admin logged in successfully", jwtXTokenResponse, HttpStatus.CREATED);
+                RestApiResponse.success("Admin logged in successfully", jwtXTokenResponse, HttpStatus.CREATED);
         return restApiResponse.toResponseEntity();
     }
 }

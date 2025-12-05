@@ -14,16 +14,24 @@ import java.util.UUID;
 @AllArgsConstructor
 @Entity
 @Table(name = "foods")
-public class Food{
+public class Food {
+
     @Id
     @GeneratedValue
     private UUID id;
+
     @Column(nullable = false)
     private String name;
+
     private Double calories; // per 100g or per serving
+
     private Double protein;
+
     private Double carbs;
+
     private Double fat;
+
     private String servingUnit; // g, ml, piece
+
     private Double servingSize; // default serving size
 }

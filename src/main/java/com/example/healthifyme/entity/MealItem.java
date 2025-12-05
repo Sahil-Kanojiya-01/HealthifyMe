@@ -14,16 +14,20 @@ import java.util.UUID;
 @AllArgsConstructor
 @Entity
 @Table(name = "meal_items")
-public class MealItem{
+public class MealItem {
+
     @Id
     @GeneratedValue
     private UUID id;
+
     @ManyToOne
     @JoinColumn(name = "meal_id", nullable = false)
     private Meal meal;
+
     @ManyToOne
     @JoinColumn(name = "food_id", nullable = false)
     private Food food;
+
     private Double quantity; // Multiplier of serving size or grams
 
     public Double getCalories() {

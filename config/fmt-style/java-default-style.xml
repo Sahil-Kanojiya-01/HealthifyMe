@@ -16,6 +16,7 @@
         <setting id="org.eclipse.jdt.core.formatter.alignment_for_selector_in_method_invocation" value="16464"/>
         <setting id="org.eclipse.jdt.core.formatter.alignment_for_expressions_in_array_initializer" value="20"/>
 
+
         <!-- Args formatting -->
         <setting id="org.eclipse.jdt.core.formatter.alignment_for_arguments_in_method_invocation" value="20"/>
         <setting id="org.eclipse.jdt.core.formatter.alignment_for_arguments_in_allocation_expression" value="20"/>

@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UpdateExerciseRequest{
+public class UpdateExerciseRequest {
 
     @NotBlank(message = "Exercise name cannot be blank")
     @Size(max = 100, message = "Exercise name cannot exceed 100 characters")
@@ -26,5 +26,4 @@ public class UpdateExerciseRequest{
 
     @Size(max = 500, message = "Description cannot exceed 500 characters")
     private String description;
-
 }

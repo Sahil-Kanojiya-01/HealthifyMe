@@ -1,7 +1,7 @@
 package com.example.healthifyme.config;
 
-import com.example.healthifyme.security.JwtAuthFilter;
-import com.example.healthifyme.security.XJwtAuthFilter;
+import com.example.healthifyme.security.JwtUserAuthFilter;
+import com.example.healthifyme.security.XJwtAdminAuthFilter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,25 +19,26 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
-public class SecurityConfig{
+public class SecurityConfig {
+
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http, JwtAuthFilter jwtAuthFilter,
-            XJwtAuthFilter xJwtAuthFilter) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http, JwtUserAuthFilter jwtUserAuthFilter,
+                                           XJwtAdminAuthFilter xJwtAdminAuthFilter) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
-                .sessionManagement(securitySessionManagementConfigurer->securitySessionManagementConfigurer
+                .sessionManagement(securitySessionManagementConfigurer -> securitySessionManagementConfigurer
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(
-                    authorizationManagerRequestMatcherRegistry->authorizationManagerRequestMatcherRegistry
-                            .requestMatchers("/api/**")
-                            .authenticated()
-                            .requestMatchers("/api/v1/auth/**")
-                            .permitAll()
-                            .requestMatchers("/resources/**")
-                            .permitAll()
-                            .anyRequest()
-                            .permitAll())
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(xJwtAuthFilter, JwtAuthFilter.class);
+                        authorizationManagerRequestMatcherRegistry -> authorizationManagerRequestMatcherRegistry
+                                .requestMatchers("/api/**")
+                                .authenticated()
+                                .requestMatchers("/api/v1/auth/**")
+                                .permitAll()
+                                .requestMatchers("/resources/**")
+                                .permitAll()
+                                .anyRequest()
+                                .permitAll())
+                .addFilterBefore(jwtUserAuthFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(xJwtAdminAuthFilter, JwtUserAuthFilter.class);
         return http.build();
     }
 
@@ -48,7 +49,7 @@ public class SecurityConfig{
 
     @Bean
     public AuthenticationProvider authenticationProvider(UserDetailsService userDetailsService,
-            PasswordEncoder passwordEncoder) {
+                                                         PasswordEncoder passwordEncoder) {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider(userDetailsService);
         authenticationProvider.setPasswordEncoder(passwordEncoder);
         return authenticationProvider;

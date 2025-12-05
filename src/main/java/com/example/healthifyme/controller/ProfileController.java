@@ -1,15 +1,16 @@
 package com.example.healthifyme.controller;
 
-import com.example.healthifyme.DTO.request.CreateProfileRequest;
 import com.example.healthifyme.DTO.request.UpdateProfileRequest;
 import com.example.healthifyme.DTO.response.ProfileResponse;
 import com.example.healthifyme.DTO.response.RestApiResponse;
+import com.example.healthifyme.security.UserDetailsImpl;
 import com.example.healthifyme.service.ProfileService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -18,47 +19,33 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/profiles")
-public class ProfileController{
+public class ProfileController {
+
     private final ProfileService profileService;
 
-    @GetMapping("/{id}")
-    public ResponseEntity<RestApiResponse<ProfileResponse>> getProfile(@PathVariable("id") UUID id) {
-        ProfileResponse profileResponse = profileService.getProfileById(id);
+    @GetMapping("/self")
+    public ResponseEntity<RestApiResponse<ProfileResponse>> getOwnProfile(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        ProfileResponse profileResponse = profileService.getProfileByUserId(userDetails.getId());
         RestApiResponse<ProfileResponse> restApiResponse =
-            RestApiResponse.success("Profile fetched successfully", profileResponse, HttpStatus.OK);
+                RestApiResponse.success("Profile fetched successfully", profileResponse, HttpStatus.OK);
         return restApiResponse.toResponseEntity();
     }
 
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<RestApiResponse<ProfileResponse>> getProfileByUser(@PathVariable("userId") UUID userId) {
-        ProfileResponse profileResponse = profileService.getProfileByUserId(userId);
-        RestApiResponse<ProfileResponse> restApiResponse =
-            RestApiResponse.success("Profile fetched successfully", profileResponse, HttpStatus.OK);
-        return restApiResponse.toResponseEntity();
-    }
-
-    @PostMapping("/")
-    public ResponseEntity<RestApiResponse<Void>> createProfile(
-            @Valid @RequestBody CreateProfileRequest createProfileRequest) {
-        profileService.createProfile(createProfileRequest);
-        RestApiResponse<Void> rest = RestApiResponse.success("Profile created successfully", null, HttpStatus.CREATED);
-        return rest.toResponseEntity();
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<RestApiResponse<Void>> updateProfile(@PathVariable("id") UUID id,
-            @Valid @RequestBody UpdateProfileRequest updateProfileRequest) {
-        profileService.updateProfile(id, updateProfileRequest);
+    @PutMapping("/self")
+    public ResponseEntity<RestApiResponse<Void>> updateOwnProfile(@AuthenticationPrincipal UserDetailsImpl userDetails,
+                                                                  @Valid @RequestBody UpdateProfileRequest updateProfileRequest) {
+        profileService.updateOwnProfile(userDetails.getId(), updateProfileRequest);
         RestApiResponse<Void> restApiResponse =
-            RestApiResponse.success("Profile updated successfully", null, HttpStatus.OK);
+                RestApiResponse.success("Profile updated successfully", null, HttpStatus.OK);
         return restApiResponse.toResponseEntity();
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<RestApiResponse<Void>> deleteProfile(@PathVariable("id") UUID id) {
-        profileService.deleteProfile(id);
-        RestApiResponse<Void> rest =
-            RestApiResponse.success("Profile deleted successfully", null, HttpStatus.NO_CONTENT);
-        return rest.toResponseEntity();
-    }
+//    @PreAuthorize("hasRole('ADMIN')")
+//    @DeleteMapping("/{id}")
+//    public ResponseEntity<RestApiResponse<Void>> deleteProfile(@PathVariable("id") UUID id) {
+//        profileService.deleteProfile(id);
+//        RestApiResponse<Void> rest =
+//                RestApiResponse.success("Profile deleted successfully", null, HttpStatus.NO_CONTENT);
+//        return rest.toResponseEntity();
+//    }
 }

@@ -1,8 +1,9 @@
 package com.example.healthifyme.security;
 
-import com.example.healthifyme.entity.User;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.UUID;
+
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -11,8 +12,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 @Getter
 @RequiredArgsConstructor
-public class UserDetailsImpl implements UserDetails{
-    private final User user;
+public class UserDetailsImpl implements UserDetails {
+
+    public final UUID id;
+    public final String email;
+    private final String password;
+
     private final String DEFAULT_ROLE = "ROLE_USER";
 
     @Override
@@ -22,11 +27,11 @@ public class UserDetailsImpl implements UserDetails{
 
     @Override
     public String getPassword() {
-        return user.getPassword();
+        return password;
     }
 
     @Override
     public String getUsername() {
-        return user.getEmail();
+        return email;
     }
 }

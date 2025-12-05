@@ -19,7 +19,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/exercises")
-public class ExerciseController{
+public class ExerciseController {
 
     private final ExerciseService exerciseService;
 
@@ -27,15 +27,15 @@ public class ExerciseController{
     public ResponseEntity<RestApiResponse<List<ExerciseResponse>>> getExercises() {
         List<ExerciseResponse> exerciseResponseList = exerciseService.getExercises();
         RestApiResponse<List<ExerciseResponse>> restApiResponse =
-            RestApiResponse.success("Exercises fetched successfully", exerciseResponseList, HttpStatus.OK);
+                RestApiResponse.success("Exercises fetched successfully", exerciseResponseList, HttpStatus.OK);
         return restApiResponse.toResponseEntity();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<RestApiResponse<ExerciseResponse>> getFood(@PathVariable("id") UUID id) {
+    public ResponseEntity<RestApiResponse<ExerciseResponse>> getExercise(@PathVariable("id") UUID id) {
         ExerciseResponse exerciseResponse = exerciseService.getExerciseById(id);
         RestApiResponse<ExerciseResponse> restApiResponse =
-            RestApiResponse.success("Exercise fetched successfully", exerciseResponse, HttpStatus.OK);
+                RestApiResponse.success("Exercise fetched successfully", exerciseResponse, HttpStatus.OK);
         return restApiResponse.toResponseEntity();
     }
 
@@ -49,10 +49,10 @@ public class ExerciseController{
 
     @PutMapping("/{id}")
     public ResponseEntity<RestApiResponse<Void>> updateExercise(@PathVariable("id") UUID id,
-            @Valid @RequestBody UpdateExerciseRequest updateExerciseRequest) {
+                                                                @Valid @RequestBody UpdateExerciseRequest updateExerciseRequest) {
         exerciseService.updateExercise(id, updateExerciseRequest);
         RestApiResponse<Void> restApiResponse =
-            RestApiResponse.success("Exercise updated successfully", null, HttpStatus.OK);
+                RestApiResponse.success("Exercise updated successfully", null, HttpStatus.OK);
         return restApiResponse.toResponseEntity();
     }
 
@@ -60,8 +60,7 @@ public class ExerciseController{
     public ResponseEntity<RestApiResponse<Void>> deleteExercise(@PathVariable("id") UUID id) {
         exerciseService.deleteExercise(id);
         RestApiResponse<Void> rest =
-            RestApiResponse.success("Exercise deleted successfully", null, HttpStatus.NO_CONTENT);
+                RestApiResponse.success("Exercise deleted successfully", null, HttpStatus.NO_CONTENT);
         return rest.toResponseEntity();
     }
-
 }

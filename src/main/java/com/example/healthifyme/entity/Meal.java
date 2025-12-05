@@ -17,20 +17,22 @@ import java.util.UUID;
 @AllArgsConstructor
 @Entity
 @Table(name = "meals")
-public class Meal{
+public class Meal {
+
     @Id
     @GeneratedValue
     private UUID id;
+
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
-    @ManyToOne
-    @JoinColumn(name = "goal_id")
-    private Goal goal;
+
     @Column(nullable = false)
     private LocalDate date;
+
     @Enumerated(EnumType.STRING)
     private MealType type; // BREAKFAST, LUNCH, SNACK, DINNER
+
     @OneToMany(mappedBy = "meal")
     private List<MealItem> items = new ArrayList<>();
 

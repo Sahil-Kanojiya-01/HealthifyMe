@@ -1,5 +1,6 @@
 package com.example.healthifyme.DTO.response;
 
+import com.example.healthifyme.entity.Profile;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,7 +15,7 @@ public class ProfileResponse{
     private Double weight;
     private Double height;
     private String gender;
-    private String activityLevel;
+    private Profile.ActivityLevel activityLevel;
     private String goalId;
     private Double bmi;
 }

@@ -14,10 +14,11 @@ import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
-public class JwtService{
+public class JwtService {
+
     private final JwtProperties props;
     private final Key key;
-    private final static String ADMIN_X_CLAIM_KEY = "admin-x-token";
+    private final static String X_AUTH_ADMIN_TOKEN = "x-auth-admin-token";
 
     public JwtService(JwtProperties props) {
         this.props = props;
@@ -25,7 +26,7 @@ public class JwtService{
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public String generateToken(String email) {
+    public String generateAuthUserToken(String email) {
         log.debug("Generating token for User: {}", email);
         Map<String, Object> claims = new HashMap<>();
         Instant issuedAt = Instant.now();
@@ -40,10 +41,10 @@ public class JwtService{
                 .compact();
     }
 
-    public String generateAdminXToken(String email) {
+    public String generateXAuthAdminToken(String email) {
         log.debug("Generating admin-x-token for Admin: {}", email);
         Map<String, Object> claims = new HashMap<>();
-        claims.put(ADMIN_X_CLAIM_KEY, true);
+        claims.put(X_AUTH_ADMIN_TOKEN, true);
         Instant issuedAt = Instant.now();
         Instant expiration = issuedAt.plusMillis(props.getExpirationMs());
         return Jwts.builder()
@@ -56,8 +57,8 @@ public class JwtService{
                 .compact();
     }
 
-    public boolean validateToken(String token) {
-        log.debug("Validating token ({} chars)", token.length());
+    public boolean validateAuthUserToken(String token) {
+        log.debug("Validating auth user token ({} chars)", token.length());
         try {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
             return true;
@@ -66,15 +67,15 @@ public class JwtService{
         }
     }
 
-    public boolean validateXToken(String token) {
-        log.debug("Validating token ({} chars)", token.length());
+    public boolean validateXAuthAdminToken(String token) {
+        log.debug("Validating x auth admin token ({} chars)", token.length());
         try {
             return Jwts.parserBuilder()
                     .setSigningKey(key)
                     .build()
                     .parseClaimsJws(token)
                     .getBody()
-                    .get(ADMIN_X_CLAIM_KEY, Boolean.class);
+                    .get(X_AUTH_ADMIN_TOKEN, Boolean.class);
         } catch (JwtException e) {
             return false;
         }

@@ -14,19 +14,20 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @Slf4j
 @RestControllerAdvice
-public class GlobalExceptionHandler{
+public class GlobalExceptionHandler {
+
     @ExceptionHandler(AuthenticationException.class)
     public ResponseEntity<ErrorResponse> handleAuthenticationException(AuthenticationException e,
-            HttpServletRequest httpServletRequest) {
+                                                                       HttpServletRequest httpServletRequest) {
         log.warn("Authentication failed with ex: {}", e.getMessage());
         ErrorResponse errorResponse =
-            ErrorResponse.of(HttpStatus.UNAUTHORIZED, "Invalid email or password", httpServletRequest.getRequestURI());
+                ErrorResponse.of(HttpStatus.UNAUTHORIZED, "Invalid email or password", httpServletRequest.getRequestURI());
         return errorResponse.toResponseEntity();
     }
 
     @ExceptionHandler(UserAlreadyExistsException.class)
     public ResponseEntity<ErrorResponse> handleUserAlreadyExistsException(UserAlreadyExistsException e,
-            HttpServletRequest request) {
+                                                                          HttpServletRequest request) {
         log.warn("User already exists ex: {}", e.getMessage());
         ErrorResponse error = ErrorResponse.of(HttpStatus.CONFLICT, e.getMessage(), request.getRequestURI());
         return error.toResponseEntity();
@@ -34,20 +35,20 @@ public class GlobalExceptionHandler{
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(MethodArgumentNotValidException e,
-            BindingResult bindingResult) {
+                                                                               BindingResult bindingResult) {
         log.warn("Validation failed with ex: {}", e.getMessage());
         log.debug("Validation failed with field errors: {}", bindingResult.getFieldErrors());
         ErrorResponse errorResponse =
-            ErrorResponse.of(HttpStatus.BAD_REQUEST, "Validation error", bindingResult.getFieldErrors());
+                ErrorResponse.of(HttpStatus.BAD_REQUEST, "Validation error", bindingResult.getFieldErrors());
         return errorResponse.toResponseEntity();
     }
 
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<ErrorResponse> handleRuntimeException(RuntimeException e,
-            HttpServletRequest httpServletRequest) {
+                                                                HttpServletRequest httpServletRequest) {
         log.error("Runtime exception occurred", e);
         ErrorResponse error =
-            ErrorResponse.of(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), httpServletRequest.getRequestURI());
+                ErrorResponse.of(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), httpServletRequest.getRequestURI());
         return error.toResponseEntity();
     }
 
@@ -55,7 +56,7 @@ public class GlobalExceptionHandler{
     public ResponseEntity<ErrorResponse> handleException(Exception e, HttpServletRequest httpServletRequest) {
         log.error("General exception occurred", e);
         ErrorResponse error = ErrorResponse.of(HttpStatus.INTERNAL_SERVER_ERROR, "An unexpected error occurred",
-            httpServletRequest.getRequestURI());
+                httpServletRequest.getRequestURI());
         return error.toResponseEntity();
     }
 }

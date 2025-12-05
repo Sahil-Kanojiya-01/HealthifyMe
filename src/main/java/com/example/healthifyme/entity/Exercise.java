@@ -15,12 +15,17 @@ import java.util.UUID;
 @Entity
 @Table(name = "exercises")
 public class Exercise{
+
     @Id
     @GeneratedValue
     private UUID id;
+
     @Column(nullable = false)
     private String name;
+
     private String muscleGroup; // CHEST, BACK, LEGS, ARMS, SHOULDERS, CORE, CARDIO
+
     private String equipment; // DUMBBELL, BARBELL, MACHINE, BODYWEIGHT
+
     private String description;
 }
